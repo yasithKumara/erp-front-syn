@@ -61,7 +61,7 @@ function SideNavbar() {
           </Link>
           </li>
           <li>
-          <Link to="/job-enquiries" id="job-enquiries" onClick={clickedLink} >
+          <Link to="/new-enquiry" id="job-enquiries" onClick={clickedLink} >
             <img src={require("../resources/tabler_report-search.png")} className="h-5 pl-2 after:bg-slate-500" /> Job Enquiries
           </Link>
           </li>

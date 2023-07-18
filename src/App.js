@@ -12,6 +12,7 @@ import Tickets from "./pages/Tickets";
 import Ticket from "./pages/Ticket";
 import SideNavbar from "./components/SideNavbar";
 import { useSelector } from "react-redux";
+import NewEnquiry from "./pages/NewEnquiry";
 
 function App() {
 
@@ -37,6 +38,9 @@ function App() {
             </Route>
             <Route path="/ticket/:ticketId" element={<PrivateRoute />}>
               <Route path="/ticket/:ticketId" element={<Ticket />} />
+            </Route>
+            <Route path="/new-enquiry" element={<PrivateRoute />}>
+              <Route path="/new-enquiry" element={<NewEnquiry />} />
             </Route>
           </Routes>
         </div>

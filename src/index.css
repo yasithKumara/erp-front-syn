@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .drawer-content-custom{
-  @apply drawer-content flex flex-col items-center justify-center w-3/4 sm:w-4/5
+  @apply drawer-content flex flex-col items-center justify-center lg:w-3/4 sm:w-[9/10]
 }
 
 .container{
