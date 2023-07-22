@@ -5,17 +5,22 @@
 @tailwind utilities;
 
 .drawer-content-custom{
-  @apply drawer-content flex flex-col items-center justify-center lg:w-3/4 sm:w-[9/10]
+  @apply drawer-content flex flex-col items-center justify-center
 }
 
 .container{
   width: 100vw;
+  min-height: 100vh;
 }
 
 body, html { 
   font-family: 'Inter', sans-serif;
   margin:0;
   padding:0;
+}
+
+.f9{
+  background-color: #f9f9f9;
 }
 
 .login-icon-container{

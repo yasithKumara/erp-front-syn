@@ -25,7 +25,7 @@ function Header() {
         </div>
 
         <div className="navbar-end">
-          <div className="form-control">
+          <div className="form-control hidden lg:block">
             <input
               type="text"
               placeholder="Search"
