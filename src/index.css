@@ -8,6 +8,11 @@
   @apply drawer-content flex flex-col items-center justify-center
 }
 
+.rdp{
+  margin: 0px !important;
+  --rdp-cell-size: 40px
+}
+
 .container{
   width: 100vw;
   min-height: 100vh;

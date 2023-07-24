@@ -13,6 +13,7 @@ import Ticket from "./pages/Ticket";
 import SideNavbar from "./components/SideNavbar";
 import { useSelector } from "react-redux";
 import NewEnquiry from "./pages/NewEnquiry";
+import NewJob from "./pages/NewJob";
 
 function App() {
 
@@ -41,6 +42,9 @@ function App() {
             </Route>
             <Route path="/new-enquiry" element={<PrivateRoute />}>
               <Route path="/new-enquiry" element={<NewEnquiry />} />
+            </Route>
+            <Route path="/new-job" element={<PrivateRoute />}>
+              <Route path="/new-job" element={<NewJob />} />
             </Route>
           </Routes>
         </div>

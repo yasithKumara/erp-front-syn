@@ -33,12 +33,12 @@ function SideNavbar() {
   return (
     <div className="drawer lg:drawer-open w-14 float-left lg:w-1/4">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col items-center justify-center">
+      {/* <div className="drawer-content flex flex-col items-center justify-center">
         <label
           htmlFor="my-drawer-2"
           className="btn drawer-button lg:hidden p-2 rounded-full"
         > :: </label>
-      </div>
+      </div> */}
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
         <ul className="menu p-4 bg-base-100 text-base-content">
@@ -54,7 +54,7 @@ function SideNavbar() {
           </Link>
           </li>
           <li>
-          <Link to="/" className="font-medium">
+          <Link to="/new-job" className="font-medium">
             <img src={require("../resources/material-symbols_folder-open-rounded.png")} className="h-5 pl-2" /> Job Details
           </Link>
           </li>

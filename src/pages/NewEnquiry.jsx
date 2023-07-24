@@ -66,7 +66,7 @@ function NewEnquiry() {
         <div className=" float-left">
           <h1 className="font-bold ">Job Enquiries</h1>
           <p className="text-xs">
-            You are viewing every Quotations that made so far...
+            You are viewing every Quotations that's made so far...
           </p>
         </div>
         <div className="float-right">
