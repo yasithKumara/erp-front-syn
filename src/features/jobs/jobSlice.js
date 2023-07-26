@@ -1,22 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import enquiryService from "../enquiries/enquiryService";
+import jobService from "../jobs/jobService";
 
 const initialState = {
-  enquirys: [],
-  enquiry: {},
-  enquiryIDs:[],
+  jobs: [],
+  job: {},
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
 };
 
-export const createEnquiry = createAsyncThunk(
-  "enquirys/create",
-  async (enquiryData, thunkAPI) => {
+export const createJob = createAsyncThunk(
+  "jobs/create",
+  async (jobData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await enquiryService.createEnquiry(enquiryData, token);
+      return await jobService.createJob(jobData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -29,12 +28,12 @@ export const createEnquiry = createAsyncThunk(
   }
 );
 
-export const getEnquirys = createAsyncThunk(
-  "enquirys/getAll",
+export const getJobs = createAsyncThunk(
+  "jobs/getAll",
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await enquiryService.getEnquirys(token);
+      return await jobService.getJobs(token);
     } catch (error) {
       const message =
         (error.response &&
@@ -48,12 +47,12 @@ export const getEnquirys = createAsyncThunk(
 );
 
 
-export const getEnquiry = createAsyncThunk(
-  "enquirys/get",
-  async (enquiryId, thunkAPI) => {
+export const getJob = createAsyncThunk(
+  "jobs/get",
+  async (jobId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await enquiryService.getEnquiry(enquiryId, token);
+      return await jobService.getJob(jobId, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -67,12 +66,12 @@ export const getEnquiry = createAsyncThunk(
 );
 
 
-export const closeEnquiry = createAsyncThunk(
-  "enquirys/close",
-  async (enquiryId, thunkAPI) => {
+export const closeJob = createAsyncThunk(
+  "jobs/close",
+  async (jobId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await enquiryService.closeEnquiry(enquiryId, token);
+      return await jobService.closeJob(jobId, token);
     } catch (error) {
       const message =
         (error.response && 
@@ -85,80 +84,62 @@ export const closeEnquiry = createAsyncThunk(
   }
 );
 
-export const getEnquiryIDs = createAsyncThunk(
-  "enquirys/getAllIDs",
-  async (_, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await enquiryService.getEnquiryIDs(token);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-export const enquirySlice = createSlice({
-  name: "enquiry",
+export const jobSlice = createSlice({
+  name: "job",
   initialState,
   reducers: {
     reset: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createEnquiry.pending, (state) => {
+      .addCase(createJob.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createEnquiry.fulfilled, (state) => {
-        console.log(state.enquiry)
+      .addCase(createJob.fulfilled, (state) => {
+        console.log(state.job)
         state.isLoading = false;
         state.isSuccess = true;
       })
-      .addCase(createEnquiry.rejected, (state, action) => {
-        console.log(state.enquiry)
+      .addCase(createJob.rejected, (state, action) => {
+        console.log(state.job)
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(getEnquirys.pending, (state) => {
+      .addCase(getJobs.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getEnquirys.fulfilled, (state, action) => {
+      .addCase(getJobs.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.enquirys = action.payload;
+        state.jobs = action.payload;
       })
-      .addCase(getEnquirys.rejected, (state, action) => {
+      .addCase(getJobs.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(getEnquiry.pending, (state) => {
+      .addCase(getJob.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getEnquiry.fulfilled, (state, action) => {
+      .addCase(getJob.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.enquiry = action.payload;
+        state.job = action.payload;
       })
-      .addCase(getEnquiry.rejected, (state, action) => {
+      .addCase(getJob.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(closeEnquiry.fulfilled, (state, action) => {
+      .addCase(closeJob.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.enquirys.map((enquiry)=> enquiry._id === action.payload._id ?
-        (enquiry.status = 'closed') : enquiry )
+        state.jobs.map((job)=> job._id === action.payload._id ?
+        (job.status = 'closed') : job )
       })
   },
 });
 
-export const { reset } = enquirySlice.actions;
+export const { reset } = jobSlice.actions;
 
-export default enquirySlice.reducer;
+export default jobSlice.reducer;

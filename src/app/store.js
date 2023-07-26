@@ -3,6 +3,7 @@ import authReducer from '../features/auth/authSlice'
 import ticketReducer from '../features/tickets/ticketSlice'
 import noteReducer from '../features/notes/noteSlice'
 import enquiryReducer from '../features/enquiries/enquirySlice'
+import jobReducer from '../features/jobs/jobSlice'
 
 
 export const store = configureStore({
@@ -10,6 +11,7 @@ export const store = configureStore({
     auth: authReducer,
     ticket: ticketReducer,
     note: noteReducer,
-    enquiry: enquiryReducer
+    enquiry: enquiryReducer,
+    job: jobReducer
   },
 });

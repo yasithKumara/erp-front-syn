@@ -54,6 +54,21 @@ const closeEnquiry = async (enquiryId, token) => {
   
     return response.data;
   };
+
+  //get enqury ids
+  const getEnquiryIDs = async (token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  
+    const response = await axios.get(API_URL+'/GetInquiryIDs', config);
+    console.log(response)
+  
+    return response.data;
+  };
+
 const enquiryService = {
   createEnquiry,
   getEnquirys,

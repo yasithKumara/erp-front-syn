@@ -20,18 +20,19 @@ function NewJob() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [client_name, setClient_name] = useState("");
-  const [project_name, setProject_name] = useState("sample project");
-  const [contactNo, setContactNo] = useState("");
-  const [IHT_Member, setIHT_Member] = useState("");
-  const [Brief, setBrief] = useState("");
-  const [site_visit, setSite_visit] = useState(false);
-  const [sub_task, setSub_task] = useState(false);
+  //in frontend
+  // const [client_name, setClient_name] = useState("");
+  // const [project_name, setProject_name] = useState("sample project");
+  // const [site_visit, setSite_visit] = useState(false);
+
+  //in backend
+  const [inquiry_number, setInquiry_number] = useState("samplein");
+  const [priority_level, setPriority_level] = useState("1");
+  
+  const [brief, setBrief] = useState("");
   const [status, setStatus] = useState("Pending");
 
-  const [selected, setSelected] = useState(new Date());
-
-  const [selectedDate, setSelectedDate] = useState(null);
+  // const [sub_task, setSub_task] = useState(false);
 
   const [project_start, setProject_start] = useState(null);
   const [projectStartIsRendered, setProjectStartIsRendered] = useState(false);
@@ -55,20 +56,18 @@ function NewJob() {
   const [internal_QC, setInternal_QC] = useState(null);
   const [internal_QCIsRendered, setInternal_QCIsRendered] = useState(false);
 
-  
   const [installation_process, setInstallation_process] = useState(null);
-  const [installation_processIsRendered, setInstallation_processIsRendered] = useState(false);
+  const [installation_processIsRendered, setInstallation_processIsRendered] =
+    useState(false);
 
   const [external_QC, setExternal_QC] = useState(null);
   const [external_QCIsRendered, setExternal_QCIsRendered] = useState(false);
 
-  
   const [project_end, setProject_end] = useState(null);
   const [project_endIsRendered, setProject_endIsRendered] = useState(false);
 
   const [completion, setCompletion] = useState(null);
   const [completionIsRendered, setCompletionIsRendered] = useState(false);
-  
 
   const dayPickerStyles = {
     caption: { position: "relative" }, // Center the caption text
@@ -88,11 +87,6 @@ function NewJob() {
     // head_cell:{width:'30px', height:'30px'}
   };
 
-  let footer = <p>Please pick a day.</p>;
-  if (selected) {
-    footer = <p>You picked {format(selected, "PP")}.</p>;
-  }
-
   useEffect(() => {
     if (isError) {
       toast.error(message);
@@ -107,7 +101,7 @@ function NewJob() {
   }, [isError, dispatch, isSuccess, navigate, message]);
 
   const onSubmit = (e) => {
-    console.log(client_name);
+    // console.log(client_name);
     e.preventDefault();
     // dispatch(
     //   createEnquiry({
@@ -128,12 +122,14 @@ function NewJob() {
   }
 
   const handleProject_startDateSelect = (date) => {
-    if (date.length >= 10) {
-      setProject_start(date);
-      if (projectStartIsRendered) {
-        setProjectStartIsRendered(!projectStartIsRendered);
-      }
-    }
+    setProject_start(date);
+    setProjectStartIsRendered(!projectStartIsRendered);
+    // if (date.length >= 10) {
+    //   setProject_start(date);
+    //   if (projectStartIsRendered) {
+    //     setProjectStartIsRendered(!projectStartIsRendered);
+    //   }
+    // }
   };
 
   const renderProjectStartDatePicker = (e) => {
@@ -190,7 +186,7 @@ function NewJob() {
     e.preventDefault();
     setInternal_QCIsRendered(!internal_QCIsRendered);
   };
-  
+
   const handleInstallation_processDateSelect = (date) => {
     setInstallation_process(date);
     setInstallation_processIsRendered(!installation_processIsRendered);
@@ -210,8 +206,6 @@ function NewJob() {
     e.preventDefault();
     setExternal_QCIsRendered(!external_QCIsRendered);
   };
-
-  
 
   const handleProject_endDateSelect = (date) => {
     setProject_end(date);
@@ -233,7 +227,6 @@ function NewJob() {
     setCompletionIsRendered(!completionIsRendered);
   };
 
-
   return (
     <div className="drawer-content-custom f9">
       <div className=" inline-block bg-white mt-5 w-[92%] p-5">
@@ -244,7 +237,7 @@ function NewJob() {
           </p>
         </div>
         <div className="float-right">
-          <button className="btn login-btn btn-sm">Create Job</button>
+          <button className="btn login-btn btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] ">Create Job</button>
         </div>
       </div>
       <hr />
@@ -262,9 +255,9 @@ function NewJob() {
               <input
                 className="input input-sm input-bordered w-full"
                 type="text"
-                id="client_name"
-                value={client_name}
-                onChange={(e) => setClient_name(e.target.value)}
+                // id="client_name"
+                // value={client_name}
+                // onChange={(e) => setClient_name(e.target.value)}
               />
             </p>
           </div>
@@ -276,9 +269,9 @@ function NewJob() {
               <input
                 className="input input-sm input-bordered w-full"
                 type="text"
-                id="contactNo"
-                value={contactNo}
-                onChange={(e) => setContactNo(e.target.value)}
+                // id="contactNo"
+                // value={contactNo}
+                // onChange={(e) => setContactNo(e.target.value)}
               />
             </p>
           </div>
@@ -290,9 +283,9 @@ function NewJob() {
               <input
                 className="input input-sm input-bordered w-full"
                 type="text"
-                id="IHT_Member"
-                value={IHT_Member}
-                onChange={(e) => setIHT_Member(e.target.value)}
+                // id="IHT_Member"
+                // value={IHT_Member}
+                // onChange={(e) => setIHT_Member(e.target.value)}
               />
             </p>
           </div>
@@ -316,7 +309,7 @@ function NewJob() {
                 class="textarea textarea-bordered w-full"
                 placeholder="Brief"
                 id="Brief"
-                value={Brief}
+                value={brief}
                 onChange={(e) => setBrief(e.target.value)}
               ></textarea>
             </p>
@@ -328,9 +321,9 @@ function NewJob() {
             <input
               type="checkbox"
               class="toggle toggle-primary toggle-xs ml-1"
-              id="site_visit"
-              checked={site_visit}
-              onClick={(e) => setSite_visit(e.target.checked)}
+              // id="site_visit"
+              // checked={site_visit}
+              // onClick={(e) => setSite_visit(e.target.checked)}
             />
           </div>
           <div className="col-span-6 inline-block">
@@ -354,7 +347,7 @@ function NewJob() {
                     class=" py-2 w-full px-2 outline-none text-gray-600 bg-[#F2F3F5] rounded"
                     type="text"
                     placeholder="YYYY-MM-DD"
-                    value={project_start ? project_start.toDateString() : null}
+                    value={project_start ? project_start.toISOString().slice(0, 10) : null}
                     onChange={handleProject_startDateSelect}
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -553,9 +546,7 @@ function NewJob() {
           </div>
 
           <div className="col-span-2  inline relative col-start-1">
-            <label class="cursor-pointer label text-xs">
-              Internal QC
-            </label>
+            <label class="cursor-pointer label text-xs">Internal QC</label>
 
             <div class="flex flex-col">
               <div class="mx-auto my-auto w-full sm:w-full md:w-full">
@@ -639,9 +630,7 @@ function NewJob() {
           </div>
 
           <div className="col-span-2  inline relative">
-            <label class="cursor-pointer label text-xs">
-              External QC
-            </label>
+            <label class="cursor-pointer label text-xs">External QC</label>
 
             <div class="flex flex-col">
               <div class="mx-auto my-auto w-full sm:w-full md:w-full">
@@ -681,11 +670,8 @@ function NewJob() {
             </div>
           </div>
 
-          
           <div className="col-span-2  inline relative">
-            <label class="cursor-pointer label text-xs">
-            Project End
-            </label>
+            <label class="cursor-pointer label text-xs">Project End</label>
 
             <div class="flex flex-col">
               <div class="mx-auto my-auto w-full sm:w-full md:w-full">
@@ -726,9 +712,7 @@ function NewJob() {
           </div>
 
           <div className="col-span-2  inline relative">
-            <label class="cursor-pointer label text-xs">
-            Completion
-            </label>
+            <label class="cursor-pointer label text-xs">Completion</label>
 
             <div class="flex flex-col">
               <div class="mx-auto my-auto w-full sm:w-full md:w-full">
@@ -738,9 +722,7 @@ function NewJob() {
                     type="text"
                     placeholder="YYYY-MM-DD"
                     value={
-                      completion
-                        ? completion.toISOString().slice(0, 10)
-                        : null
+                      completion ? completion.toISOString().slice(0, 10) : null
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -767,7 +749,6 @@ function NewJob() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
       <div className="h-[320px]"></div>
