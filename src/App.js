@@ -14,6 +14,7 @@ import SideNavbar from "./components/SideNavbar";
 import { useSelector } from "react-redux";
 import NewEnquiry from "./pages/NewEnquiry";
 import NewJob from "./pages/NewJob";
+import Jobs from "./pages/Jobs";
 
 function App() {
 
@@ -45,6 +46,9 @@ function App() {
             </Route>
             <Route path="/new-job" element={<PrivateRoute />}>
               <Route path="/new-job" element={<NewJob />} />
+            </Route>
+            <Route path="/jobs" element={<PrivateRoute />}>
+              <Route path="/jobs" element={<Jobs />} />
             </Route>
           </Routes>
         </div>
