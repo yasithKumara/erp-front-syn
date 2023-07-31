@@ -1,6 +1,6 @@
 import axios from "axios";
 //const API_URL = 'http://localhost:8080/auth'
-const API_URL = "http://localhost:8080/inquiry";
+const API_URL = "http://localhost:8080/job";
 
 //create a new job
 const createJob = async (jobData, token) => {
@@ -22,10 +22,16 @@ const getJobs = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     };
+
+    const filters = {
+    "date": "2023-07-28",
+    "stateFilter":"Pending"
+  }
   
-    const response = await axios.get(API_URL, config);
+    const response = await axios.post(API_URL+ '/GetJobs', filters, config);
+    console.log(response.data)
   
-    return response.data;
+    return response.data.data;
   };
 
   //get user jobs

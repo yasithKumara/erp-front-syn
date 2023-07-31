@@ -28,6 +28,21 @@ body, html {
   background-color: #f9f9f9;
 }
 
+.active-link{
+  background-color: #f7f6fc;
+  color: #5c4ec9;
+}
+
+.active-icon {
+  filter: hue-rotate(270deg); /* Adjust the degree value for the desired purple color */
+  background-blend-mode: 'multiply';
+  background-color: 'purple';
+}
+
+.svg-icon {
+  filter: brightness(0) saturate(100%) invert(36%) sepia(63%) saturate(5466%) hue-rotate(237deg) brightness(84%) contrast(85%);
+}
+
 .login-icon-container{
   /* background: linear-gradient(217.64deg, #9181F4 -5.84%, #5038ED 106.73%) */
   background-image: url('./resources/Rectangle 4.png');

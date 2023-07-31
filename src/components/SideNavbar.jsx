@@ -11,6 +11,7 @@ function SideNavbar() {
   const location = useLocation();
 
   const [lastId, setLastId] = useState('')
+  const [activeLink, setActiveLink] = useState('');
 
   const { user } = useSelector((state) => state.auth);
 
@@ -21,13 +22,16 @@ function SideNavbar() {
   };
 
   const clickedLink = (e) =>{
-    console.log(e.target.id)
 
-    if(lastId!=='')
-    document.getElementById(lastId).style.backgroundColor = "white"
-    setLastId(e.target.id)
+    const clickedLinkId = e.target.id;
+  setActiveLink(clickedLinkId);
+    // console.log(e.target.id)
 
-    document.getElementById(e.target.id).style.backgroundColor = "lightblue"
+    // if(lastId!=='')
+    // document.getElementById(lastId).style.backgroundColor = "white"
+    // setLastId(e.target.id)
+
+    // document.getElementById(e.target.id).style.backgroundColor = "lightblue"
   }
 
   return (
@@ -49,13 +53,13 @@ function SideNavbar() {
         {user && user.type === '' ? (<></>) : (<></>)}
         {user && user.type === '' ? (<></>) : (<></>)} */}
           <li>
-          <Link to="/" className="font-medium">
-            <img src={require("../resources/dashboard.png")} className="h-5 pl-2" /> Dashboard
+          <Link to="/" id="dashboard" onClick={clickedLink} className={`font-medium ${activeLink === 'dashboard' ? 'active-link' : ''}`}>
+            <img  src={require("../resources/dashboard.png")} className={`h-5 pl-2 ${activeLink === 'dashboard' ? 'active-icon' : ''} `} /> Dashboard
           </Link>
           </li>
           <li>
-          <Link to="/new-job" className="font-medium">
-            <img src={require("../resources/material-symbols_folder-open-rounded.png")} className="h-5 pl-2" /> Job Details
+          <Link to="/jobs" id="jobs" onClick={clickedLink} className="font-medium">
+            <img src={require("../resources/material-symbols_folder-open-rounded.png")} className="h-5 pl-2 " /> Job Details
           </Link>
           </li>
           <li>
@@ -69,42 +73,42 @@ function SideNavbar() {
           </Link>
           </li>
           <li>
-          <Link to="/" className="font-medium">
+          <Link to="/" id="quotations" onClick={clickedLink} className="font-medium">
             <img src={require("../resources/tabler_report-search.png")} className="h-5 pl-2" /> Quotations
           </Link>
           </li>
           <li>
-          <Link to="/" className="font-medium">
+          <Link to="/" id="designs" onClick={clickedLink} className="font-medium">
             <img src={require("../resources/tabler_report-search (2).png")} className="h-5 pl-2" /> Designs
           </Link>
           </li>
           <li>
-          <Link to="/" className="font-medium">
+          <Link to="/" id="bom" onClick={clickedLink} className="font-medium">
             <img src={require("../resources/tabler_report-search (1).png")} className="h-5 pl-2" /> BOM
           </Link>
           </li>
           <li>
-          <Link to="/" className="font-medium">
+          <Link to="/" id="manufacturing" onClick={clickedLink} className="font-medium">
             <img src={require("../resources/majesticons_note-text-plus-line (5).png")} className="h-5 pl-2" /> Manufacturing
           </Link>
           </li>
           <li>
-          <Link to="/" className="font-medium">
+          <Link to="/" id="qc" onClick={clickedLink} className="font-medium">
             <img src={require("../resources/majesticons_note-text-plus-line (4).png")} className="h-5 pl-2" /> QC
           </Link>
           </li>
           <li>
-          <Link to="/" className="font-medium">
+          <Link to="/" id="installations" onClick={clickedLink} className="font-medium">
             <img src={require("../resources/majesticons_note-text-plus-line (3).png")} className="h-5 pl-2" /> Installations
           </Link>
           </li>
           <li>
-          <Link to="/" className="font-medium">
+          <Link to="/" id="employees" onClick={clickedLink} className="font-medium">
             <img src={require("../resources/majesticons_note-text-plus-line (2).png")} className="h-5 pl-2" /> Employees
           </Link>
           </li>
           <li>
-          <Link to="/" className="font-medium">
+          <Link to="/" id="clients" onClick={clickedLink} className="font-medium">
             <img src={require("../resources/majesticons_note-text-plus-line (1).png")} className="h-5 pl-2" /> Clients
           </Link>
           </li>

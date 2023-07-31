@@ -237,7 +237,7 @@ function NewJob() {
           </p>
         </div>
         <div className="float-right">
-          <button className="btn login-btn btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] ">Create Job</button>
+          <button className="btn btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] ">Create Job</button>
         </div>
       </div>
       <hr />

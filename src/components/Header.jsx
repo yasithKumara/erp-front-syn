@@ -3,6 +3,7 @@ import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
+import settingsIcon from '../resources/settings.svg';
 
 function Header() {
   const navigate = useNavigate();
@@ -43,12 +44,12 @@ function Header() {
           <button className="btn btn-ghost btn-circle">
             <div className="indicator">
               <img
-                className="h-5 w-5"
-                src={require("../resources/ph_gear-fill.png")}
+                className="h-5 w-5 svg-icon"
+                src={settingsIcon}
               />
             </div>
           </button>
-
+          {/*  src={require("../resources/ph_gear-fill.png")} */}
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar m-1">
               <div className="w-7 h-7 rounded-full">
