@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { reset, createEnquiry } from "../features/enquiries/enquirySlice";
+import { reset, createEnquiry, getEnquiryIDs, getEnquiryByID } from "../features/enquiries/enquirySlice";
 import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
 
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import { createJob } from "../features/jobs/jobSlice";
 
 function NewJob() {
   const { user } = useSelector((state) => state.auth);
 
-  const { isLoading, isError, isSuccess, message } = useSelector(
+  const { isLoading, isError, isSuccess, message, enquiryIDs, enquiry } = useSelector(
     (state) => state.enquiry
   );
 
@@ -21,16 +22,21 @@ function NewJob() {
   const navigate = useNavigate();
 
   //in frontend
-  // const [client_name, setClient_name] = useState("");
-  // const [project_name, setProject_name] = useState("sample project");
-  // const [site_visit, setSite_visit] = useState(false);
+  const [client_name, setClient_name] = useState("");
+  const [project_name, setProject_name] = useState("");
+  const [site_visit, setSite_visit] = useState(false);
 
   //in backend
-  const [inquiry_number, setInquiry_number] = useState("samplein");
+  const [inquiry_number, setInquiry_number] = useState("");
+  const [job_no, setJob_no] = useState("");
+  
   const [priority_level, setPriority_level] = useState("1");
   
   const [brief, setBrief] = useState("");
   const [status, setStatus] = useState("Pending");
+
+  const [description, setDescription] = useState("This is a sample description");
+  const [details, setDetails] = useState("This is a sample details");
 
   // const [sub_task, setSub_task] = useState(false);
 
@@ -82,9 +88,10 @@ function NewJob() {
     nav_icon: { height: "10px" },
     row: { border: "2 px" },
     day: { color: "#272e3b" },
-    // day:{width:'30px', height:'30px'},
-    // cell:{ width:'30px', height:'30px'},
-    // head_cell:{width:'30px', height:'30px'}
+    // selected: {
+    //   backgroundColor: 'red !important',
+    //   // Add other styles as needed
+    // },
   };
 
   useEffect(() => {
@@ -93,28 +100,63 @@ function NewJob() {
     }
 
     if (isSuccess) {
-      dispatch(reset());
-      navigate("/tickets");
+      // dispatch(reset());
+      // navigate("/tickets");
     }
 
-    dispatch(reset());
+    // dispatch(reset());
   }, [isError, dispatch, isSuccess, navigate, message]);
+
+  useEffect(()=>{
+    console.log('first')
+    dispatch(getEnquiryIDs())
+  },[])
+
+  useEffect(() => {
+    // This useEffect will run whenever the Redux state 'enquiry' is updated
+    
+      // If client_name and project_name are available in the Redux state,
+      // update the local component state accordingly
+      setClient_name(enquiry.client_name);
+      setProject_name(enquiry.project_name);
+      setSite_visit(enquiry.site_visit)
+    
+  }, [enquiry]);
 
   const onSubmit = (e) => {
     // console.log(client_name);
     e.preventDefault();
-    // dispatch(
-    //   createEnquiry({
-    //     client_name,
-    //     project_name,
-    //     contactNo,
-    //     IHT_Member,
-    //     Brief,
-    //     site_visit,
-    //     sub_task,
-    //     status,
-    //   })
-    // );
+    dispatch(
+      createJob({
+        inquiry_number,
+        job_no,
+        priority_level,
+        //status set to pending
+        status,
+        // brief, not allowed
+        project_start,
+        manufacturing_start,
+        internal_QC,
+        project_end,
+        bom_completion,
+        manufacturing_end,
+        installation_process,
+        completion,
+        Purchasing_completion,
+        external_QC,
+        description,
+        details
+        
+        // client_name,
+        // project_name,
+        // contactNo,
+        // IHT_Member,
+        // Brief,
+        // site_visit,
+        // sub_task,
+        // status,
+      })
+    );
   };
 
   if (isLoading) {
@@ -227,6 +269,15 @@ function NewJob() {
     setCompletionIsRendered(!completionIsRendered);
   };
 
+  const onEnquiryIDSelect = (enquiryID) =>{
+    setInquiry_number(parseInt(enquiryID))
+    dispatch(getEnquiryByID(enquiryID))
+    
+  }
+
+ 
+
+
   return (
     <div className="drawer-content-custom f9">
       <div className=" inline-block bg-white mt-5 w-[92%] p-5">
@@ -236,9 +287,9 @@ function NewJob() {
             You are viewing every Job Number that's made so far...
           </p>
         </div>
-        <div className="float-right">
+        {/* <div className="float-right">
           <button className="btn btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] ">Create Job</button>
-        </div>
+        </div> */}
       </div>
       <hr />
       <div className="w-[92%] bg-white">
@@ -255,8 +306,8 @@ function NewJob() {
               <input
                 className="input input-sm input-bordered w-full"
                 type="text"
-                // id="client_name"
-                // value={client_name}
+                id="client_name"
+                value={client_name}
                 // onChange={(e) => setClient_name(e.target.value)}
               />
             </p>
@@ -264,27 +315,27 @@ function NewJob() {
           <div className="col-span-3 ">
             <p>
               <label className=" text-xs" for="">
-                Contact Number
+                Job Number
               </label>
               <input
                 className="input input-sm input-bordered w-full"
                 type="text"
-                // id="contactNo"
-                // value={contactNo}
-                // onChange={(e) => setContactNo(e.target.value)}
+                id="job_no"
+                value={job_no}
+                onChange={(e) => setJob_no(e.target.value)}
               />
             </p>
           </div>
           <div className="col-span-3 ">
             <p>
               <label className=" text-xs" for="">
-                IHT Client Service Number
+                Project Name
               </label>
               <input
                 className="input input-sm input-bordered w-full"
                 type="text"
-                // id="IHT_Member"
-                // value={IHT_Member}
+                id="project_name"
+                value={project_name}
                 // onChange={(e) => setIHT_Member(e.target.value)}
               />
             </p>
@@ -294,10 +345,24 @@ function NewJob() {
               <label className=" text-xs" for="">
                 Job ID
               </label>
-              <input
+              <select onChange={(e) => onEnquiryIDSelect(e.target.value)} value={enquiry.index_no} className="select select-sm select-bordered font-normal text-sm w-full">
+              <option disabled selected >Select an enquiry ID</option>
+                {enquiryIDs.length > 0
+                    ? enquiryIDs.map((enquiryID) => (
+                        <>
+                          <option >{enquiryID.index_no}</option>
+                        </>
+                      ))
+              : null}
+                {/* <option>Who shot first?</option>
+                <option>Han Solo</option>
+                <option>Greedo</option> */}
+              </select>
+  
+              {/* <input
                 className="input input-sm input-bordered w-full"
                 type="text"
-              />
+              /> */}
             </p>
           </div>
           <div className="col-span-6">
@@ -321,16 +386,16 @@ function NewJob() {
             <input
               type="checkbox"
               class="toggle toggle-primary toggle-xs ml-1"
-              // id="site_visit"
-              // checked={site_visit}
+              id="site_visit"
+              checked={site_visit}
               // onClick={(e) => setSite_visit(e.target.checked)}
             />
           </div>
           <div className="col-span-6 inline-block">
             <div className="float-right">
-              <button className="btn btn-sm m-1">Cancel</button>
+              <button className="btn btn-sm m-1 text-sm normal-case font-medium">Cancel</button>
               <button
-                className="btn btn-sm bg-blue-700 hover:bg-blue-800 text-white ml-1 submit"
+                className="btn btn-sm bg-blue-700 hover:bg-blue-800 text-white ml-1 submit text-sm normal-case font-medium"
                 onClick={onSubmit}
               >
                 Submit
@@ -347,7 +412,8 @@ function NewJob() {
                     class=" py-2 w-full px-2 outline-none text-gray-600 bg-[#F2F3F5] rounded"
                     type="text"
                     placeholder="YYYY-MM-DD"
-                    value={project_start ? project_start.toISOString().slice(0, 10) : null}
+                    // value={project_start ? project_start.toISOString().slice(0, 10) : null}
+                    value={project_start ? format(project_start, 'yyyy-MM-dd') : ''}
                     onChange={handleProject_startDateSelect}
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -387,8 +453,7 @@ function NewJob() {
                     placeholder="YYYY-MM-DD"
                     value={
                       bom_completion
-                        ? bom_completion.toISOString().slice(0, 10)
-                        : null
+                        ? format(bom_completion, 'yyyy-MM-dd') : ''
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -430,8 +495,7 @@ function NewJob() {
                     placeholder="YYYY-MM-DD"
                     value={
                       Purchasing_completion
-                        ? Purchasing_completion.toISOString().slice(0, 10)
-                        : null
+                        ? format(Purchasing_completion, 'yyyy-MM-dd') : ''
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -473,8 +537,7 @@ function NewJob() {
                     placeholder="YYYY-MM-DD"
                     value={
                       manufacturing_start
-                        ? manufacturing_start.toISOString().slice(0, 10)
-                        : null
+                        ? format(manufacturing_start, 'yyyy-MM-dd') : ''
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -516,8 +579,7 @@ function NewJob() {
                     placeholder="YYYY-MM-DD"
                     value={
                       manufacturing_end
-                        ? manufacturing_end.toISOString().slice(0, 10)
-                        : null
+                        ? format(manufacturing_end, 'yyyy-MM-dd') : ''
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -557,8 +619,7 @@ function NewJob() {
                     placeholder="YYYY-MM-DD"
                     value={
                       internal_QC
-                        ? internal_QC.toISOString().slice(0, 10)
-                        : null
+                        ? format(internal_QC, 'yyyy-MM-dd') : ''
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -600,8 +661,7 @@ function NewJob() {
                     placeholder="YYYY-MM-DD"
                     value={
                       installation_process
-                        ? installation_process.toISOString().slice(0, 10)
-                        : null
+                        ? format(installation_process, 'yyyy-MM-dd') : ''
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -641,8 +701,7 @@ function NewJob() {
                     placeholder="YYYY-MM-DD"
                     value={
                       external_QC
-                        ? external_QC.toISOString().slice(0, 10)
-                        : null
+                        ? format(external_QC, 'yyyy-MM-dd') : ''
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -682,8 +741,7 @@ function NewJob() {
                     placeholder="YYYY-MM-DD"
                     value={
                       project_end
-                        ? project_end.toISOString().slice(0, 10)
-                        : null
+                        ? format(project_end, 'yyyy-MM-dd') : ''
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
@@ -722,7 +780,7 @@ function NewJob() {
                     type="text"
                     placeholder="YYYY-MM-DD"
                     value={
-                      completion ? completion.toISOString().slice(0, 10) : null
+                      completion ? format(completion, 'yyyy-MM-dd') : ''
                     }
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">

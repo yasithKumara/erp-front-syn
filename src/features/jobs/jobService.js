@@ -10,23 +10,25 @@ const createJob = async (jobData, token) => {
     },
   };
 
-  const response = await axios.post(API_URL + '/CreateInquiry', jobData, config);
+  const response = await axios.post(API_URL + '/CreateJob', jobData, config);
 
   return response.data;
 };
 
 //get user jobs
-const getJobs = async (token) => {
+const getJobs = async (filters, token) => {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
 
-    const filters = {
-    "date": "2023-07-28",
-    "stateFilter":"Pending"
-  }
+
+  //   const filters = {
+  //   "date": "2023-07-28",
+  //   "stateFilter":"Pending",
+  //   "cursor":3
+  // }
   
     const response = await axios.post(API_URL+ '/GetJobs', filters, config);
     console.log(response.data)

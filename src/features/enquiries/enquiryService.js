@@ -66,14 +66,30 @@ const closeEnquiry = async (enquiryId, token) => {
     const response = await axios.get(API_URL+'/GetInquiryIDs', config);
     console.log(response)
   
-    return response.data;
+    return response.data.data;
+  };
+
+  //get enqury ids
+  const getEnquiryByID = async (enquiryID, token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  
+    const response = await axios.get(API_URL+'/GetInquirybyID/'+enquiryID, config);
+    console.log(response)
+  
+    return response.data.data[0];
   };
 
 const enquiryService = {
   createEnquiry,
   getEnquirys,
   getEnquiry,
-  closeEnquiry
+  closeEnquiry,
+  getEnquiryIDs,
+  getEnquiryByID
 };
 
 export default enquiryService;

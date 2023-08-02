@@ -103,6 +103,24 @@ export const getEnquiryIDs = createAsyncThunk(
   }
 );
 
+export const getEnquiryByID = createAsyncThunk(
+  "enquirys/getByEnquiryID",
+  async (enquiryId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await enquiryService.getEnquiryByID(enquiryId, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const enquirySlice = createSlice({
   name: "enquiry",
   initialState,
@@ -155,6 +173,32 @@ export const enquirySlice = createSlice({
         state.isLoading = false;
         state.enquirys.map((enquiry)=> enquiry._id === action.payload._id ?
         (enquiry.status = 'closed') : enquiry )
+      })
+      .addCase(getEnquiryIDs.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getEnquiryIDs.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.enquiryIDs = action.payload;
+      })
+      .addCase(getEnquiryIDs.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getEnquiryByID.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getEnquiryByID.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.enquiry = action.payload;
+      })
+      .addCase(getEnquiryByID.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
   },
 });

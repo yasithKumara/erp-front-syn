@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import settingsIcon from '../resources/settings.svg';
+import ideahubIcon from '../resources/ideahub.svg'
 
 function Header() {
   const navigate = useNavigate();
@@ -21,7 +22,8 @@ function Header() {
       <div className="navbar bg-base-100 h-10 pl-15">
         <div className="navbar-start">
           <Link to="/">
-            <img src={require("./logo.png")} className="h-5 pl-2" />
+            <img src={require("./logo.png")} className="pl-6 h-6 lg:h-full" />
+            {/* <img src={ideahubIcon} className=" px-7" /> */}
           </Link>
         </div>
 

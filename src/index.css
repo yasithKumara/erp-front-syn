@@ -30,17 +30,20 @@ body, html {
 
 .active-link{
   background-color: #f7f6fc;
-  color: #5c4ec9;
+  color: #5c4ec9 !important;
 }
 
 .active-icon {
-  filter: hue-rotate(270deg); /* Adjust the degree value for the desired purple color */
-  background-blend-mode: 'multiply';
-  background-color: 'purple';
+  filter: brightness(0) saturate(100%) invert(36%) sepia(63%) saturate(5466%) hue-rotate(237deg) brightness(84%) contrast(85%);
+}
+
+.active-tab{
+  color: #5c4ec9;
+  border-color:  #5c4ec9;
 }
 
 .svg-icon {
-  filter: brightness(0) saturate(100%) invert(36%) sepia(63%) saturate(5466%) hue-rotate(237deg) brightness(84%) contrast(85%);
+  /* filter: brightness(0) saturate(100%) invert(36%) sepia(63%) saturate(5466%) hue-rotate(237deg) brightness(84%) contrast(85%); */
 }
 
 .login-icon-container{

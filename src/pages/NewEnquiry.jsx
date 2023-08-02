@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { reset, createEnquiry } from "../features/enquiries/enquirySlice";
+import { reset, createEnquiry, getEnquiryIDs } from "../features/enquiries/enquirySlice";
 import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
 
@@ -27,18 +27,21 @@ function NewEnquiry() {
   
 
   useEffect(() => {
+    
+
     if (isError) {
       toast.error(message);
     }
 
     if (isSuccess) {
       dispatch(reset());
-      navigate("/tickets");
+      // navigate("/tickets");
     }
 
     dispatch(reset());
   }, [isError, dispatch, isSuccess, navigate, message]);
 
+  
   const onSubmit = (e) => {
     console.log(client_name)
     e.preventDefault();
@@ -56,6 +59,7 @@ function NewEnquiry() {
     );
   };
 
+  
   if (isLoading) {
     return <Spinner />;
   }
@@ -69,9 +73,21 @@ function NewEnquiry() {
             You are viewing every Quotations that's made so far...
           </p>
         </div>
-        <div className="float-right">
+        <Link to="/new-job" className=" float-right">
+            <button
+              type="button"
+              className="btn btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] text-sm normal-case font-medium"
+            >
+              Create Job
+              <img
+                src={require("../resources/ic_round-keyboard-arrow-right.png")}
+                className=" "
+              />
+            </button>
+          </Link>
+        {/* <div className="float-right">
           <button className="btn login-btn btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2]">Create Job</button>
-        </div>
+        </div> */}
       </div>
       <hr />
       <div className="w-[92%] bg-white">
@@ -161,8 +177,8 @@ function NewEnquiry() {
           </div>
           <div className="col-span-2 inline-block">
             <div className="float-right">
-              <button className="btn btn-sm m-1">Cancel</button>
-              <button className="btn btn-sm bg-blue-700 hover:bg-blue-800 text-white ml-1 submit" onClick={onSubmit}>
+              <button className="btn btn-sm m-1 text-sm normal-case font-medium">Cancel</button>
+              <button className="btn btn-sm bg-blue-700 hover:bg-blue-800 text-white ml-1 submit text-sm normal-case font-medium" onClick={onSubmit}>
                 Submit
               </button>
             </div>
