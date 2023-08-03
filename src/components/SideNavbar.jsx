@@ -22,7 +22,7 @@ function SideNavbar() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
+  // const location = useLocation();
 
   const [lastId, setLastId] = useState('')
   const [activeLink, setActiveLink] = useState('');
@@ -47,7 +47,7 @@ function SideNavbar() {
           className=" drawer-button lg:hidden bg-white"
         > :: </label>
       </div>
-    <div className="drawer lg:drawer-open w-14 float-left lg:w-1/4 z-10">
+    <div className="drawer lg:drawer-open w-14 float-left lg:w-1/4 z-10 block">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       
       {/* <div className="drawer-content flex flex-col items-center justify-center">
@@ -56,73 +56,86 @@ function SideNavbar() {
           className="btn drawer-button lg:hidden p-2 rounded-full"
         > :: </label>
       </div> */}
-      <div className="drawer-side">
+      <div className="drawer-side p-1 ">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-        <ul className="menu p-4 bg-base-100 text-base-content">
-
-          {/* {user && user.type === 'super-admin' ? (<></>) : (<></>)}
+        <ul className="menu bg-base-100 text-base-content px-6 rounded-lg">
+        {/* {user && user.type === 'super-admin' ? (<></>) : (<></>)}
         {user && user.type === 'design-manager' ? (<></>) : (<></>)}
         {user && user.type === '' ? (<></>) : (<></>)}
         {user && user.type === '' ? (<></>) : (<></>)}
         {user && user.type === '' ? (<></>) : (<></>)} */}
-          <li>
-            <Link to="/" id="dashboard" onClick={clickedLink} className={`font-medium ${activeLink === 'dashboard' ? 'active-link' : ''}`}>
-              <img src={dashboardIcon} className={` ${activeLink === 'dashboard' ? 'active-icon' : ''} `} /> Dashboard
+
+          <li className="p-[2px]">
+            <Link to="/dashboard" id="dashboard" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'dashboard' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'dashboard' ? '' : 'hidden'} bg-[#5c4ec9] `}></div>  
+            <img src={dashboardIcon} className={`px-2 ${activeLink === 'dashboard' ? 'active-icon' : ''} `} /> Dashboard
             </Link>
           </li>
-          <li>
-            <Link to="/jobs" id="jobs" onClick={clickedLink} className={`font-medium ${activeLink === 'jobs' ? 'active-link' : ''}`}>
-              <img src={jobsIcon} className={` ${activeLink === 'jobs' ? 'active-icon' : ''} `} /> Job Details
+
+          <li className="p-[2px]">
+            <Link to="/jobs" id="jobs" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'jobs' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'jobs' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={jobsIcon} className={`px-2 ${activeLink === 'jobs' ? 'active-icon' : ''} `} /> Job Details
             </Link>
           </li>
-          <li>
-            <Link to="/new-enquiry" id="job-enquiries" onClick={clickedLink} className={`font-medium ${activeLink === 'job-enquiries' ? 'active-link' : ''}`}>
-              <img src={inquiryIcon} className={` ${activeLink === 'job-enquiries' ? 'active-icon' : ''} `} /> Job Enquiries
+          <li className="p-[2px]">
+            <Link to="/new-enquiry" id="job-enquiries" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'job-enquiries' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'job-enquiries' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={inquiryIcon} className={`px-2 ${activeLink === 'job-enquiries' ? 'active-icon' : ''} `} /> Job Enquiries
             </Link>
           </li>
-          <li>
-            <Link to="/purchasing" id="purchasing" onClick={clickedLink} className={`font-medium ${activeLink === 'purchasing' ? 'active-link' : ''}`}>
-              <img src={purchasingIcon} className={` ${activeLink === 'purchasing' ? 'active-icon' : ''} `} /> Purchasing
+          <li className="p-[2px]">
+            <Link to="/purchasing" id="purchasing" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'purchasing' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'purchasing' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={purchasingIcon} className={`px-2 ${activeLink === 'purchasing' ? 'active-icon' : ''} `} /> Purchasing
             </Link>
           </li>
-          <li>
-            <Link to="/" id="quotations" onClick={clickedLink} className={`font-medium ${activeLink === 'quotations' ? 'active-link' : ''}`}>
-              <img src={quotationsIcon} className={`${activeLink === 'quotations' ? 'active-icon' : ''} `} /> Quotations
+          <li className="p-[2px]">
+            <Link to="/" id="quotations" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'quotations' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'quotations' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={quotationsIcon} className={`px-2 ${activeLink === 'quotations' ? 'active-icon' : ''} `} /> Quotations
             </Link>
           </li>
-          <li>
-            <Link to="/" id="designs" onClick={clickedLink} className={`font-medium ${activeLink === 'designs' ? 'active-link' : ''}`}>
-              <img src={designsIcon} className={` ${activeLink === 'designs' ? 'active-icon' : ''} `} /> Designs
+          <li className="p-[2px]">
+            <Link to="/" id="designs" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'designs' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'designs' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={designsIcon} className={`px-2  ${activeLink === 'designs' ? 'active-icon' : ''} `} /> Designs
             </Link>
           </li>
-          <li>
-            <Link to="/" id="bom" onClick={clickedLink} className={`font-medium ${activeLink === 'bom' ? 'active-link' : ''}`}>
-              <img src={bomIcon} className={` ${activeLink === 'bom' ? 'active-icon' : ''} `} /> BOM
+          <li className="p-[2px]">
+            <Link to="/" id="bom" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'bom' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'bom' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={bomIcon} className={` px-2 ${activeLink === 'bom' ? 'active-icon' : ''} `} /> BOM
             </Link>
           </li>
-          <li>
-            <Link to="/" id="manufacturing" onClick={clickedLink} className={`font-medium ${activeLink === 'manufacturing' ? 'active-link' : ''} `}>
-              <img src={manufacturingIcon} className={`h-10 w-10 ml-[-5px]  ${activeLink === 'manufacturing' ? 'active-icon' : ''} `} /> Manufacturing
+          <li className="p-[2px]">
+            <Link to="/" id="manufacturing" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'manufacturing' ? 'active-link pl-0' : ''} `}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'manufacturing' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={manufacturingIcon} className={`px-2  ml-[-5px]  ${activeLink === 'manufacturing' ? 'active-icon' : ''} `} /> Manufacturing
             </Link>
           </li>
-          <li>
-            <Link to="/" id="qc" onClick={clickedLink} className={`font-medium ${activeLink === 'qc' ? 'active-link' : ''}`}>
-              <img src={qcIcon} className={`h-10 w-10 ml-[-5px] ${activeLink === 'qc' ? 'active-icon' : ''} `} /> QC
+          <li className="p-[2px]">
+            <Link to="/" id="qc" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'qc' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'qc' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={qcIcon} className={`px-2  ml-[-5px] ${activeLink === 'qc' ? 'active-icon' : ''} `} /> QC
             </Link>
           </li>
-          <li>
-            <Link to="/" id="installations" onClick={clickedLink} className={`font-medium ${activeLink === 'installations' ? 'active-link' : ''}`}>
-              <img src={installationsIcon} className={`h-10 w-10 ml-[-5px]  ${activeLink === 'installations' ? 'active-icon' : ''} `} /> Installations
+          <li className="p-[2px]">
+            <Link to="/" id="installations" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'installations' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'installations' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={installationsIcon} className={`px-2  ml-[-5px]  ${activeLink === 'installations' ? 'active-icon' : ''} `} /> Installations
             </Link>
           </li>
-          <li>
-            <Link to="/" id="employees" onClick={clickedLink} className={`font-medium ${activeLink === 'employees' ? 'active-link' : ''}`}>
-              <img src={employeesIcon} className={`h-10 w-10 ml-[-5px]  ${activeLink === 'employees' ? 'active-icon' : ''} `} /> Employees
+          <li className="p-[2px]">
+            <Link to="/employees" id="employees" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'employees' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'employees' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={employeesIcon} className={`px-2  ml-[-5px]  ${activeLink === 'employees' ? 'active-icon' : ''} `} /> Employees
             </Link>
           </li>
-          <li>
-            <Link to="/" id="clients" onClick={clickedLink} className={`font-medium ${activeLink === 'clients' ? 'active-link' : ''}`}>
-              <img src={clientsIcon} className={`h-10 w-10 ml-[-5px] ${activeLink === 'clients' ? 'active-icon' : ''} `} /> Clients
+          <li className="p-[2px]">
+            <Link to="/clients" id="clients" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'clients' ? 'active-link pl-0' : ''}`}>
+            <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'clients' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
+              <img src={clientsIcon} className={`px-2  ml-[-5px] ${activeLink === 'clients' ? 'active-icon' : ''} `} /> Clients
             </Link>
           </li>
 

@@ -22,6 +22,7 @@ function NewEnquiry() {
   const [IHT_Member, setIHT_Member] = useState("");
   const [Brief, setBrief] = useState("");
   const [site_visit, setSite_visit] = useState(false);
+
   const [sub_task, setSub_task] = useState(false);
   const [status, setStatus] = useState("Pending");
   
@@ -51,10 +52,10 @@ function NewEnquiry() {
         project_name,
         contactNo,
         IHT_Member,
-        Brief,
         site_visit,
-        sub_task,
-        status
+        Brief,
+        status,
+        sub_task
       })
     );
   };

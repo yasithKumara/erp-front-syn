@@ -29,7 +29,8 @@ body, html {
 }
 
 .active-link{
-  background-color: #f7f6fc;
+  /* background-color: #f7f6fc; */
+  background-color: #5C4EC90D;
   color: #5c4ec9 !important;
 }
 

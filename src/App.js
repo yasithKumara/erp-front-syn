@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 import NewEnquiry from "./pages/NewEnquiry";
 import NewJob from "./pages/NewJob";
 import Jobs from "./pages/Jobs";
+import Employees from "./pages/Employees"
+import Clients from "./pages/Clients";
 
 function App() {
 
@@ -49,6 +51,12 @@ function App() {
             </Route>
             <Route path="/jobs" element={<PrivateRoute />}>
               <Route path="/jobs" element={<Jobs />} />
+            </Route>
+            <Route path="/employees" element={<PrivateRoute />}>
+              <Route path="/employees" element={<Employees />} />
+            </Route>
+            <Route path="/clients" element={<PrivateRoute />}>
+              <Route path="/clients" element={<Clients />} />
             </Route>
           </Routes>
         </div>

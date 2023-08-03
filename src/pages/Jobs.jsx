@@ -62,7 +62,7 @@ function Jobs() {
     <>
       <div className="drawer-content-custom f9">
         <div className="grid grid-cols-3 gap-7 w-[92%] mt-7 ">
-          <HeadCard />
+          <HeadCard icon={<img src={require("../resources/material-symbols_folder-open-rounded.png")} className="h-5  m-auto" />} value={29} heading={'Total Projects'}/>
           <HeadCard />
           <HeadCard />
         </div>
