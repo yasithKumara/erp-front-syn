@@ -22,13 +22,6 @@ const getJobs = async (filters, token) => {
         Authorization: `Bearer ${token}`,
       },
     };
-
-
-  //   const filters = {
-  //   "date": "2023-07-28",
-  //   "stateFilter":"Pending",
-  //   "cursor":3
-  // }
   
     const response = await axios.post(API_URL+ '/GetJobs', filters, config);
     console.log(response.data)
@@ -62,11 +55,57 @@ const closeJob = async (jobId, token) => {
   
     return response.data;
   };
+
+  //get user job count all
+  const getJobCountAll = async ( token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  
+    const response = await axios.get(API_URL+ '/GetJobCountAll', config);
+    //console.log(response.data)
+  
+    return response.data.data.count;
+  };
+
+  //get user job count revision
+  const getJobCountRevision = async ( token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  
+    const response = await axios.get(API_URL+ '/GetJobCountRevision', config);
+    //console.log(response.data)
+  
+    return response.data.data.count;
+  };
+
+  //get user job count production
+  const getJobCountProduction = async ( token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  
+    const response = await axios.get(API_URL+ '/GetJoCountProduction', config);
+    //console.log(response.data)
+  
+    return response.data.data.count;
+  };
+
 const jobService = {
   createJob,
   getJobs,
   getJob,
-  closeJob
+  closeJob,
+  getJobCountAll,
+  getJobCountRevision,
+  getJobCountProduction
 };
 
 export default jobService;

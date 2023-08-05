@@ -36,7 +36,7 @@ function NewJob() {
   const [status, setStatus] = useState("Pending");
 
   const [description, setDescription] = useState("This is a sample description");
-  const [details, setDetails] = useState("This is a sample details");
+  //const [details, setDetails] = useState("This is a sample details");
 
   // const [sub_task, setSub_task] = useState(false);
 
@@ -133,7 +133,7 @@ function NewJob() {
         priority_level,
         //status set to pending
         status,
-        // brief, not allowed
+        brief,
         project_start,
         manufacturing_start,
         internal_QC,
@@ -145,7 +145,7 @@ function NewJob() {
         Purchasing_completion,
         external_QC,
         description,
-        details
+        //details
         
         // client_name,
         // project_name,
@@ -296,7 +296,7 @@ function NewJob() {
         <form onSubmit={onSubmit}></form>
         <div className="lg:grid grid-cols-6 gap-2 bg-white p-5 shadow-lg m-2 lg:m-10">
           <div className="col-span-6 font-medium">
-            <p>Add an inquiry</p>
+            <p>Add a job</p>
           </div>
           <div className="col-span-3 ">
             <p>
@@ -308,6 +308,7 @@ function NewJob() {
                 type="text"
                 id="client_name"
                 value={client_name}
+                disabled
                 // onChange={(e) => setClient_name(e.target.value)}
               />
             </p>
@@ -336,6 +337,7 @@ function NewJob() {
                 type="text"
                 id="project_name"
                 value={project_name}
+                disabled
                 // onChange={(e) => setIHT_Member(e.target.value)}
               />
             </p>
@@ -388,6 +390,7 @@ function NewJob() {
               class="toggle toggle-primary toggle-xs ml-1"
               id="site_visit"
               checked={site_visit}
+              disabled
               // onClick={(e) => setSite_visit(e.target.checked)}
             />
           </div>
@@ -414,7 +417,9 @@ function NewJob() {
                     placeholder="YYYY-MM-DD"
                     // value={project_start ? project_start.toISOString().slice(0, 10) : null}
                     value={project_start ? format(project_start, 'yyyy-MM-dd') : ''}
-                    onChange={handleProject_startDateSelect}
+                    disabled
+                    // onChange={handleProject_startDateSelect}
+
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderProjectStartDatePicker}>
@@ -455,6 +460,7 @@ function NewJob() {
                       bom_completion
                         ? format(bom_completion, 'yyyy-MM-dd') : ''
                     }
+                    disabled
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderBom_completionDatePicker}>
@@ -497,6 +503,7 @@ function NewJob() {
                       Purchasing_completion
                         ? format(Purchasing_completion, 'yyyy-MM-dd') : ''
                     }
+                    disabled
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderPurchasing_completionDatePicker}>
@@ -539,6 +546,7 @@ function NewJob() {
                       manufacturing_start
                         ? format(manufacturing_start, 'yyyy-MM-dd') : ''
                     }
+                    disabled
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderManufacturing_startDatePicker}>
@@ -581,6 +589,7 @@ function NewJob() {
                       manufacturing_end
                         ? format(manufacturing_end, 'yyyy-MM-dd') : ''
                     }
+                    disabled
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderManufacturing_endDatePicker}>
@@ -621,6 +630,7 @@ function NewJob() {
                       internal_QC
                         ? format(internal_QC, 'yyyy-MM-dd') : ''
                     }
+                    disabled
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderInternal_QCDatePicker}>
@@ -663,6 +673,7 @@ function NewJob() {
                       installation_process
                         ? format(installation_process, 'yyyy-MM-dd') : ''
                     }
+                    disabled
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderInstallation_processDatePicker}>
@@ -703,6 +714,7 @@ function NewJob() {
                       external_QC
                         ? format(external_QC, 'yyyy-MM-dd') : ''
                     }
+                    disabled
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderExternal_QCDatePicker}>
@@ -743,6 +755,7 @@ function NewJob() {
                       project_end
                         ? format(project_end, 'yyyy-MM-dd') : ''
                     }
+                    disabled
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderProject_endDatePicker}>
@@ -782,6 +795,7 @@ function NewJob() {
                     value={
                       completion ? format(completion, 'yyyy-MM-dd') : ''
                     }
+                    disabled
                   />
                   <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
                     <button onClick={renderCompletionDatePicker}>

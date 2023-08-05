@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { getJobs, reset } from "../features/jobs/jobSlice";
+import { getJobCountAll, getJobCountProduction, getJobCountRevision, getJobs, reset } from "../features/jobs/jobSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../components/Spinner";
 import JobItem from "../components/JobItem";
@@ -8,14 +8,24 @@ import HeadCard from "../components/HeadCard";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
+import folderIcon from "../resources/folder.svg";
+import infoIcon from "../resources/Info.svg";
+import refreshIcon from "../resources/refresh.svg";
+
 function Jobs() {
-  const { jobs, isLoading, isSuccess } = useSelector((state) => state.job);
+  const { jobs, isLoading, isSuccess, jobCount, jobCountRevision, jobCountProduction } = useSelector((state) => state.job);
 
   const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState('');
+  const [activeTab, setActiveTab] = useState('any');
+  const [daysCount, setDaysCount] = useState(30)
 
   useEffect(() => {
+
+    dispatch(getJobCountAll())
+    dispatch(getJobCountRevision())
+    dispatch(getJobCountProduction())
+
     //run on unmount
     return () => {
       if (isSuccess) {
@@ -23,37 +33,27 @@ function Jobs() {
         //dispatch(reset());
       }
     };
-  }, [dispatch, isSuccess]);
+  }, []);
 
   useEffect(() => {
     dispatch(getJobs({
       // "date": "1999-07-28",
-      "stateFilter": 'any',
-      "cursor":6
+      "stateFilter": activeTab,
+      "cursor":10,
+      "daysCount": daysCount
     }));
-    setActiveTab('jobs')
-  }, [dispatch]);
+  }, [activeTab, daysCount]);
 
   if (isLoading) {
     return <Spinner />;
   }
 
+  const clickedDateRange = (e) => {
+    setDaysCount(e.target.id);
+  }
+
   const clickedTab = (e) => {
-    const clickedTabId = e.target.id;
-    setActiveTab(clickedTabId);
-    if(clickedTabId === 'Completed' || clickedTabId === 'Pending'){
-      dispatch(getJobs({
-        "date": "2023-07-28",
-      "stateFilter": clickedTabId,
-      "cursor":6
-      }))
-    }else{
-      dispatch(getJobs({
-        "date": "2023-07-28",
-      "stateFilter": 'any',
-      "cursor":6
-      }))
-    }
+    setActiveTab(e.target.id);
   }
 
   console.log("Before rendering JobItem", jobs); // Add this log statement to check the jobs array before mapping
@@ -62,9 +62,9 @@ function Jobs() {
     <>
       <div className="drawer-content-custom f9">
         <div className="grid grid-cols-3 gap-7 w-[92%] mt-7 ">
-          <HeadCard icon={<img src={require("../resources/material-symbols_folder-open-rounded.png")} className="h-5  m-auto" />} value={29} heading={'Total Projects'}/>
-          <HeadCard />
-          <HeadCard />
+          <HeadCard icon={folderIcon} value={jobCount} heading={'Total Projects'}/>
+          <HeadCard icon={infoIcon} value={jobCountRevision} heading={'In Revision'}/>
+          <HeadCard icon={refreshIcon} value={jobCountProduction} heading={'In Production'}/>
         </div>
         <div className=" inline-block bg-white mt-5 w-[92%] p-5">
           <h className="font-bold text-2xl">Projects</h>
@@ -76,20 +76,23 @@ function Jobs() {
         {/* Pending Approved Revision rejected */}
         <div className=" inline-block bg-white w-[92%] p-2 lg:p-5 ">
           <div className="tabs">
-            <a id="Jobs" onClick={clickedTab} className={`tab tab-bordered text-black hover:text-[#5c4ec9] hover:border-[#5c4ec9] ${activeTab === 'Jobs' ? 'active-tab' : ''}`}>
-              Jobs
+          <a id="any" onClick={clickedTab} className={`tab tab-bordered text-black hover:text-[#5c4ec9] hover:border-[#5c4ec9] ${activeTab === 'any' ? 'active-tab' : ''}`}>
+              All
             </a>
             <a id="Pending" onClick={clickedTab} className={`tab tab-bordered text-black hover:text-[#5c4ec9] hover:border-[#5c4ec9] ${activeTab === 'Pending' ? 'active-tab' : ''}`}>
               Pending
             </a>
-            <a id="Manufacturing" onClick={clickedTab} className={`tab tab-bordered text-black hover:text-[#5c4ec9] hover:border-[#5c4ec9] ${activeTab === 'Manufacturing' ? 'active-tab' : ''}`}>
+            <a id="In Production" onClick={clickedTab} className={`tab tab-bordered text-black hover:text-[#5c4ec9] hover:border-[#5c4ec9] ${activeTab === 'In Production' ? 'active-tab' : ''}`}>
               In Manufacturing
             </a>
-            <a id="Review" onClick={clickedTab} className={`tab tab-bordered text-black hover:text-[#5c4ec9] hover:border-[#5c4ec9] ${activeTab === 'Review' ? 'active-tab' : ''}`}>
+            <a id="Revision" onClick={clickedTab} className={`tab tab-bordered text-black hover:text-[#5c4ec9] hover:border-[#5c4ec9] ${activeTab === 'Revision' ? 'active-tab' : ''}`}>
               In Review
             </a>
             <a id="Completed" onClick={clickedTab} className={`tab tab-bordered text-black hover:text-[#5c4ec9] hover:border-[#5c4ec9] ${activeTab === 'Completed' ? 'active-tab' : ''}`}>
               Completed
+            </a>
+            <a id="Rejected" onClick={clickedTab} className={`tab tab-bordered text-black hover:text-[#5c4ec9] hover:border-[#5c4ec9] ${activeTab === 'Rejected' ? 'active-tab' : ''}`}>
+              Rejected
             </a>
           </div>
         </div>
@@ -104,7 +107,7 @@ function Jobs() {
                 src={require("../resources/call.png")}
                 className=" justify-center items-center"
               />
-              Last 30 days
+              {(daysCount !== '-1') ? `last ${daysCount} days` : 'All'}
               <img
                 src={require("../resources/darrow.png")}
                 className=" justify-center items-center"
@@ -115,43 +118,25 @@ function Jobs() {
               className="dropdown-content z-[1] menu  shadow bg-base-100 rounded-box w-40 "
             >
               <li>
-                <a>Item 1</a>
+                <a id="30" onClick={clickedDateRange}>Last 30 days</a>
               </li>
               <li>
-                <a>Item 2</a>
+                <a id="60" onClick={clickedDateRange}>Last 60 days</a>
+              </li>
+              <li>
+                <a id="90" onClick={clickedDateRange}>Last 90 days</a>
+              </li>
+              <li>
+                <a id="-1" onClick={clickedDateRange}>All</a>
               </li>
             </ul>
           </div>
 
-          <div className="dropdown dropdown-bottom dropdown-end m-1 align-top">
-            <label tabIndex={0} className="btn min-h-0 h-[40px] min-w-[121px]">
-              {/* <img
-                src={require("../resources/call.png")}
-                className=" justify-center items-center"
-              /> */}
-              Filter by
-              <img
-                src={require("../resources/darrow.png")}
-                className=" justify-center items-center"
-              />
-            </label>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu  shadow bg-base-100 rounded-box w-40 "
-            >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Item 2</a>
-              </li>
-            </ul>
-          </div>
+          
 
           <form class="flex flex-row focus-within:outline-[#1b53c5] focus-within:outline rounded bg-[#F2F3F5] min-h-0 h-[40px] m-1 w-[310px]">
             <span class="flex items-center rounded rounded-l-none border-0 px-2 ">
               <button
-              // onClick={}
               >
                 <img
                   src={require("../resources/charm_search.png")}
