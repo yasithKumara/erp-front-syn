@@ -2,17 +2,21 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import enquiryService from "../enquiries/enquiryService";
 
 const initialState = {
-  enquirys: [],
+  enquiries: [],
   enquiry: {},
   enquiryIDs:[],
+  enquiryCount: '',
+  enquiryCountAll: '',
+  enquiryCountRevision: '',
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
+
 };
 
 export const createEnquiry = createAsyncThunk(
-  "enquirys/create",
+  "enquiries/create",
   async (enquiryData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
@@ -29,12 +33,12 @@ export const createEnquiry = createAsyncThunk(
   }
 );
 
-export const getEnquirys = createAsyncThunk(
-  "enquirys/getAll",
-  async (_, thunkAPI) => {
+export const getEnquiries = createAsyncThunk(
+  "enquiries/getAll",
+  async (filters, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await enquiryService.getEnquirys(token);
+      return await enquiryService.getEnquiries(filters, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -49,7 +53,7 @@ export const getEnquirys = createAsyncThunk(
 
 
 export const getEnquiry = createAsyncThunk(
-  "enquirys/get",
+  "enquiries/get",
   async (enquiryId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
@@ -68,7 +72,7 @@ export const getEnquiry = createAsyncThunk(
 
 
 export const closeEnquiry = createAsyncThunk(
-  "enquirys/close",
+  "enquiries/close",
   async (enquiryId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
@@ -86,7 +90,7 @@ export const closeEnquiry = createAsyncThunk(
 );
 
 export const getEnquiryIDs = createAsyncThunk(
-  "enquirys/getAllIDs",
+  "enquiries/getAllIDs",
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
@@ -104,7 +108,7 @@ export const getEnquiryIDs = createAsyncThunk(
 );
 
 export const getEnquiryByID = createAsyncThunk(
-  "enquirys/getByEnquiryID",
+  "enquiries/getByEnquiryID",
   async (enquiryId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
@@ -112,6 +116,60 @@ export const getEnquiryByID = createAsyncThunk(
     } catch (error) {
       const message =
         (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getEnquiryCountAll = createAsyncThunk(
+  "enquiries/getCountAll",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await enquiryService.getEnquiryCountAll(token);
+    } catch (error) {
+      const message =
+        (error.response && 
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getEnquiryCountRevision = createAsyncThunk(
+  "enquiries/getCountRevision",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await enquiryService.getEnquiryCountRevision(token);
+    } catch (error) {
+      const message =
+        (error.response && 
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getEnquiryCount = createAsyncThunk(
+  "enquiries/getCount",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await enquiryService.getEnquiryCount(token);
+    } catch (error) {
+      const message =
+        (error.response && 
           error.response.data &&
           error.response.data.message) ||
         error.message ||
@@ -143,15 +201,15 @@ export const enquirySlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(getEnquirys.pending, (state) => {
+      .addCase(getEnquiries.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getEnquirys.fulfilled, (state, action) => {
+      .addCase(getEnquiries.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.enquirys = action.payload;
+        state.enquiries = action.payload;
       })
-      .addCase(getEnquirys.rejected, (state, action) => {
+      .addCase(getEnquiries.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -171,7 +229,7 @@ export const enquirySlice = createSlice({
       })
       .addCase(closeEnquiry.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.enquirys.map((enquiry)=> enquiry._id === action.payload._id ?
+        state.enquiries.map((enquiry)=> enquiry._id === action.payload._id ?
         (enquiry.status = 'closed') : enquiry )
       })
       .addCase(getEnquiryIDs.pending, (state) => {
@@ -194,6 +252,45 @@ export const enquirySlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.enquiry = action.payload;
+      })
+      .addCase(getEnquiryCountAll.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getEnquiryCountAll.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.enquiryCountAll = action.payload;
+      })
+      .addCase(getEnquiryCountAll.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getEnquiryCountRevision.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getEnquiryCountRevision.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.enquiryCountRevision = action.payload;
+      })
+      .addCase(getEnquiryCountRevision.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getEnquiryCount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getEnquiryCount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.enquiryCount = action.payload;
+      })
+      .addCase(getEnquiryCount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
       .addCase(getEnquiryByID.rejected, (state, action) => {
         state.isLoading = false;

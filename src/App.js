@@ -17,6 +17,7 @@ import NewJob from "./pages/NewJob";
 import Jobs from "./pages/Jobs";
 import Employees from "./pages/Employees"
 import Clients from "./pages/Clients";
+import Enquiries from "./pages/Enquiries";
 
 function App() {
 
@@ -57,6 +58,9 @@ function App() {
             </Route>
             <Route path="/clients" element={<PrivateRoute />}>
               <Route path="/clients" element={<Clients />} />
+            </Route>
+            <Route path="/enquiries" element={<PrivateRoute />}>
+              <Route path="/enquiries" element={<Enquiries />} />
             </Route>
           </Routes>
         </div>

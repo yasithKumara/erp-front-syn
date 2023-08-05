@@ -83,13 +83,85 @@ const closeEnquiry = async (enquiryId, token) => {
     return response.data.data[0];
   };
 
+    //get user enquiry count all
+    const getEnquiryCountAll = async ( token) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    
+      const response = await axios.get(API_URL+ '/GetInquiryAllt', config);
+      //console.log(response.data)
+    
+      return response.data.data.count;
+    };
+  
+    //get user enquiry count revision
+    const getEnquiryCountRevision = async ( token) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    
+      const response = await axios.get(API_URL+ '/GetInquiryRevisionCount', config);
+      //console.log(response.data)
+    
+      return response.data.data.count;
+    };
+  
+    //get user enquiry count production
+    // const getEnquiryCountProduction = async ( token) => {
+    //   const config = {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   };
+    
+    //   const response = await axios.get(API_URL+ '/GetInquiryCount', config);
+    //   //console.log(response.data)
+    
+    //   return response.data.data.count;
+    // };
+
+    //get user jobs
+    const getEnquiries = async (filters, token) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const response = await axios.post(API_URL+ '/GetInquiry', filters, config);
+      console.log(response.data)
+
+      return response.data.data;
+    };
+
+    const getEnquiryCount = async ( token) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    
+      const response = await axios.get(API_URL+ '/GetInquiryCount', config);
+      //console.log(response.data)
+    
+      return response.data.data.count;
+    };
+
 const enquiryService = {
   createEnquiry,
-  getEnquirys,
+  getEnquiries,
   getEnquiry,
   closeEnquiry,
   getEnquiryIDs,
-  getEnquiryByID
+  getEnquiryByID,
+  getEnquiryCountAll,
+  getEnquiryCount,
+  getEnquiryCountRevision
 };
 
 export default enquiryService;

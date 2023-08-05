@@ -79,7 +79,7 @@ function SideNavbar() {
             </Link>
           </li>
           <li className="p-[2px]">
-            <Link to="/new-enquiry" id="job-enquiries" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'job-enquiries' ? 'active-link pl-0' : ''}`}>
+            <Link to="/enquiries" id="job-enquiries" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'job-enquiries' ? 'active-link pl-0' : ''}`}>
             <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'job-enquiries' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
               <img src={inquiryIcon} className={`px-2 ${activeLink === 'job-enquiries' ? 'active-icon' : ''} `} /> Job Enquiries
             </Link>
