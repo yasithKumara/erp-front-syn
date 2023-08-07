@@ -12,7 +12,7 @@ import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
 import { getJob } from "../features/jobs/jobSlice";
 
-function NewEnquiry({ subTask }) {
+function NewEnquiry() {
   const { user } = useSelector((state) => state.auth);
 
   const { isLoading, isError, isSuccess, message, enquiry } = useSelector(
@@ -38,7 +38,7 @@ function NewEnquiry({ subTask }) {
   const [Brief, setBrief] = useState("");
   const [site_visit, setSite_visit] = useState(false);
 
-  const [sub_task, setSub_task] = useState(subTask || false);
+  const [sub_task, setSub_task] = useState(true);
   const [status, setStatus] = useState("Pending");
 
   console.log("subtask " + sub_task);
@@ -57,8 +57,8 @@ function NewEnquiry({ subTask }) {
   }, [isError, dispatch, isSuccess, navigate, message]);
 
   useEffect(() => {
-    if (subTask) {
-      console.log(subTask);
+    if (sub_task) {
+      console.log(sub_task);
 
       if (jobId) {
         dispatch(getJob(jobId));
@@ -72,13 +72,13 @@ function NewEnquiry({ subTask }) {
     }
   }, [job]);
 
-  // useEffect(() => {
-  //     if(subTask)
-  //     {setClient_name(enquiry.client_name);
-  //     setProject_name(enquiry.project_name);
-  //     setIHT_Member(enquiry.IHT_Member)}
+  useEffect(() => {
+      if(sub_task)
+      {setClient_name(enquiry.client_name);
+      setContactNo(enquiry.contact_no);
+      setIHT_Member(enquiry.iht_member)}
 
-  // }, [enquiry]);
+  }, [enquiry]);
 
   const onSubmit = (e) => {
     console.log(client_name);
@@ -105,12 +105,12 @@ function NewEnquiry({ subTask }) {
     <div className="drawer-content-custom f9">
       <div className=" inline-block bg-white mt-5 w-[92%] p-5">
         <div className=" float-left">
-          <h1 className="font-bold ">Job Enquiries</h1>
+          <h1 className="font-bold ">Add Job Enquiry</h1>
           <p className="text-xs">
-            You are viewing every Quotations that's made so far...
+            Add an enquiry for sub task
           </p>
         </div>
-        <Link
+        {/* <Link
           to="/new-job"
           className={`float-right ${sub_task ? "hidden" : ""}`}
         >
@@ -118,16 +118,28 @@ function NewEnquiry({ subTask }) {
             type="button"
             className="btn btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] text-sm normal-case font-medium"
           >
-            Create Job
+            Create Sub Task
             <img
               src={require("../resources/ic_round-keyboard-arrow-right.png")}
               className=" "
             />
           </button>
-        </Link>
-        {/* <div className="float-right">
-          <button className="btn login-btn btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2]">Create Job</button>
-        </div> */}
+        </Link> */}
+        <div className="float-right">
+          {/* <button className="btn login-btn btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2]">Create Job</button> */}
+          <Link  to={`/job/${job.job_no}/add-subtask`} className="font-medium">
+            <button
+              type="button"
+              className="btn h-[40px] btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] text-sm normal-case font-medium m-1 min-w-[128px]"
+            >
+              Create Sub Task
+              <img
+                src={require("../resources/ic_round-keyboard-arrow-right.png")}
+                className=" justify-center items-center"
+              />
+            </button>
+          </Link>
+        </div>
       </div>
       <hr />
       <div className="w-[92%] bg-white">

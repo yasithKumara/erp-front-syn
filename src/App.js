@@ -18,6 +18,11 @@ import Jobs from "./pages/Jobs";
 import Employees from "./pages/Employees"
 import Clients from "./pages/Clients";
 import Enquiries from "./pages/Enquiries";
+import NewBOM from "./pages/NewBOM";
+import NewJobSubTask from "./pages/NewJobSubTask";
+import NewEnquirySubTask from "./pages/NewEnquirySubTask";
+import BOMs from "./pages/BOMs";
+
 
 function App() {
 
@@ -61,6 +66,21 @@ function App() {
             </Route>
             <Route path="/enquiries" element={<PrivateRoute />}>
               <Route path="/enquiries" element={<Enquiries />} />
+            </Route>
+            {/* <Route path="/new-bom" element={<PrivateRoute />}>
+              <Route path="/new-bom" element={<NewBOM />} />
+            </Route> */}
+            <Route path="/boms" element={<PrivateRoute />}>
+              <Route path="/boms" element={<BOMs />} />
+            </Route>
+            {/* <Route path="/job/:jobId/add-subtask" element={<PrivateRoute />}>
+              <Route path="/job/:jobId/add-subtask" element={<NewJobSubtask />} />
+            </Route> */}
+            <Route path="/job/:jobId/add-subtask-enquiry" element={<PrivateRoute />}>
+              <Route path="/job/:jobId/add-subtask-enquiry" element={<NewEnquirySubTask />} />
+            </Route>
+            <Route path="/job/:jobId/add-subtask" element={<PrivateRoute />}>
+              <Route path="/job/:jobId/add-subtask" element={<NewJobSubTask />} />
             </Route>
           </Routes>
         </div>

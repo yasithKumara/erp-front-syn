@@ -4,6 +4,7 @@ import jobService from "../jobs/jobService";
 const initialState = {
   jobs: [],
   job: {},
+  jobIDs:[],
   jobCount: "",
   jobCountRevision:'',
   jobCountProduction:'',
@@ -141,6 +142,42 @@ export const getJobCountProduction = createAsyncThunk(
   }
 );
 
+export const getJobIDs = createAsyncThunk(
+  "jobs/getAllIDs",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await jobService.getJobIDs(token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const createSubTask = createAsyncThunk(
+  "jobs/createSubTask",
+  async (jobData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await jobService.createSubTask(jobData, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const jobSlice = createSlice({
   name: "job",
   initialState,
@@ -233,6 +270,33 @@ export const jobSlice = createSlice({
         state.isLoading = false;
         state.jobs.map((job)=> job._id === action.payload._id ?
         (job.status = 'closed') : job )
+      })
+      .addCase(getJobIDs.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getJobIDs.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.jobIDs = action.payload;
+      })
+      .addCase(getJobIDs.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(createSubTask.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createSubTask.fulfilled, (state) => {
+        console.log(state.job)
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(createSubTask.rejected, (state, action) => {
+        console.log(state.job)
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
   },
 });

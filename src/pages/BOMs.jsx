@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 
-import { getJobCountAll, getJobCountProduction, getJobCountRevision, getJobs, reset } from "../features/jobs/jobSlice";
+import {getBOMCountCompleted, getBOMCountPending, getBOMCountNotArrived, getBOMs, reset } from "../features/boms/BOMSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../components/Spinner";
-import JobItem from "../components/JobItem";
+import BOMItem from "../components/BOMItem";
 import HeadCard from "../components/HeadCard";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -12,8 +12,8 @@ import folderIcon from "../resources/folder.svg";
 import infoIcon from "../resources/Info.svg";
 import refreshIcon from "../resources/refresh.svg";
 
-function Jobs() {
-  const { jobs, isLoading, isSuccess, jobCount, jobCountRevision, jobCountProduction } = useSelector((state) => state.job);
+function BOMs() {
+  const { BOMs, isLoading, isSuccess, BOMCountCompleted, BOMCountPending, BOMCountNotArrived} = useSelector((state) => state.BOM);
 
   const dispatch = useDispatch();
 
@@ -22,21 +22,21 @@ function Jobs() {
 
   useEffect(() => {
 
-    dispatch(getJobCountAll())
-    dispatch(getJobCountRevision())
-    dispatch(getJobCountProduction())
+    dispatch(getBOMCountCompleted())
+    dispatch(getBOMCountNotArrived())
+    dispatch(getBOMCountPending())
 
     //run on unmount
     return () => {
       if (isSuccess) {
-        console.log(jobs);
+        console.log(BOMs);
         //dispatch(reset());
       }
     };
   }, []);
 
   useEffect(() => {
-    dispatch(getJobs({
+    dispatch(getBOMs({
       // "date": "1999-07-28",
       "stateFilter": activeTab,
       "cursor":10,
@@ -56,15 +56,15 @@ function Jobs() {
     setActiveTab(e.target.id);
   }
 
-  console.log("Before rendering JobItem", jobs); // Add this log statement to check the jobs array before mapping
+  console.log("Before rendering BOMItem", BOMs); // Add this log statement to check the BOMs array before mapping
 
   return (
     <>
       <div className="drawer-content-custom f9">
         <div className="grid grid-cols-3 gap-7 w-[92%] mt-7 ">
-          <HeadCard icon={folderIcon} value={jobCount} heading={'Total Projects'}/>
-          <HeadCard icon={infoIcon} value={jobCountRevision} heading={'In Revision'}/>
-          <HeadCard icon={refreshIcon} value={jobCountProduction} heading={'In Production'}/>
+          <HeadCard icon={folderIcon} value={BOMCountPending} heading={'Pending'}/>
+          <HeadCard icon={infoIcon} value={BOMCountNotArrived} heading={'Not Arrived'}/>
+          <HeadCard icon={refreshIcon} value={BOMCountCompleted} heading={'Completed'}/>
         </div>
         <div className=" inline-block bg-white mt-5 w-[92%] p-5">
           <h className="font-bold text-2xl">Projects</h>
@@ -153,12 +153,12 @@ function Jobs() {
             />
           </form>
 
-          <Link to="/new-job" className="font-medium">
+          <Link to="/new-BOM" className="font-medium">
             <button
               type="button"
-              className="btn h-[40px] btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] text-sm normal-case font-medium m-1 min-w-[128px]"
+              className="btn h-[40px] btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] text-sm normal-case font-medium m-1 min-w-[162px]"
             >
-              Create Job
+              Create BOM
               <img
                 src={require("../resources/ic_round-keyboard-arrow-right.png")}
                 className=" justify-center items-center"
@@ -167,23 +167,23 @@ function Jobs() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-11  grid-flow-row bg-white w-[92%] gap-1 lg:gap-2 text-sm lg:text-base">
+        <div className="grid grid-cols-10  grid-flow-row bg-white w-[92%] gap-1 lg:gap-2 text-sm lg:text-base">
           <div className="col-start-1 "></div>
-          <div className="col-start-2 ">No.</div>
-          <div className="col-start-3 col-span-2 ">Job Title *</div>
+          <div className="col-start-2 ">No</div>
+          <div className="col-start-3 col-span-2 ">Job Title</div>
           <div className="col-start-5 col-span-2 m-[-2px]">Description</div>
-          <div className="col-start-7 col-span-2 ">Production Status</div>
-          <div className="col-start-9 col-span-2 pl-1">Remarks</div>
+          <div className="col-start-7 col-span-2 ">Purchasing Status</div>
+          <div className="col-start-9 col-span-2 pl-1">BOM Files</div>
           <hr className="col-span-10 mx-3 my-3"/>
         </div>
 
-        <div className="grid grid-cols-11  grid-flow-row bg-white w-[92%] gap-1 lg:gap-2 text-sm lg:text-base">
-          {/* {<JobItem key={jobs.data[0]._id} job={jobs.data[0]} />} */}
+        <div className="grid grid-cols-10  grid-flow-row bg-white w-[92%] gap-1 lg:gap-2 text-sm lg:text-base">
+          {/* {<BOMItem key={BOMs.data[0]._id} BOM={BOMs.data[0]} />} */}
 
-          {jobs.length > 0
-            ? jobs.map((job) => (
+          {BOMs.length > 0
+            ? BOMs.map((BOM) => (
                 <>
-                  <JobItem key={job._id} job={job} />
+                  <BOMItem key={BOM._id} BOM={BOM} />
                   <hr className="col-span-10 mx-3 my-3" />
                 </>
               ))
@@ -195,4 +195,4 @@ function Jobs() {
   );
 }
 
-export default Jobs;
+export default BOMs;

@@ -103,7 +103,7 @@ function SideNavbar() {
             </Link>
           </li>
           <li className="p-[2px]">
-            <Link to="/" id="bom" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'bom' ? 'active-link pl-0' : ''}`}>
+            <Link to="/boms" id="bom" onClick={clickedLink} className={`font-medium flex items-center ${activeLink === 'bom' ? 'active-link pl-0' : ''}`}>
             <div className={` w-[5px] h-[18px] rounded-r-lg ${activeLink === 'bom' ? '' : 'hidden'} bg-[#5c4ec9] `}></div> 
               <img src={bomIcon} className={` px-2 ${activeLink === 'bom' ? 'active-icon' : ''} `} /> BOM
             </Link>

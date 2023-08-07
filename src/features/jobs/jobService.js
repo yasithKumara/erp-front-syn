@@ -37,9 +37,9 @@ const getJob = async (jobId, token) => {
       },
     };
   
-    const response = await axios.get(API_URL+ jobId, config);
+    const response = await axios.get(API_URL+ '/getJobByID/'+ jobId, config);
   
-    return response.data;
+    return response.data.data;
   };
 
   
@@ -98,6 +98,33 @@ const closeJob = async (jobId, token) => {
     return response.data.data.count;
   };
 
+  //get enqury ids
+  const getJobIDs = async (token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  
+    const response = await axios.get(API_URL+'/GetJobIDs', config);
+    console.log(response)
+  
+    return response.data.data;
+  };
+
+  //create a new sub task
+const createSubTask = async (jobData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(API_URL + '/CreateSubtask', jobData, config);
+
+  return response.data;
+};
+
 const jobService = {
   createJob,
   getJobs,
@@ -105,7 +132,9 @@ const jobService = {
   closeJob,
   getJobCountAll,
   getJobCountRevision,
-  getJobCountProduction
+  getJobCountProduction,
+  getJobIDs,
+  createSubTask
 };
 
 export default jobService;

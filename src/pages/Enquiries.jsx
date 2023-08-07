@@ -156,7 +156,7 @@ function Enquiries() {
           <Link to="/new-enquiry" className="font-medium">
             <button
               type="button"
-              className="btn h-[40px] btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] text-sm normal-case font-medium m-1 min-w-[130px]"
+              className="btn h-[40px] btn-sm bg-[#5c4ec9] text-white hover:bg-[#4b3bc2] text-sm normal-case font-medium m-1 min-w-[162px]"
             >
               Create Enquiry
               <img
